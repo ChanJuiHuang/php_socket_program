@@ -10,15 +10,20 @@ if (!$doesConnect) {
 while ($writeBuffer = fgets(STDIN, 1024)) {
     $writeBuffer = trim($writeBuffer);
 
+    if (empty($writeBuffer)) {
+        continue;
+    }
+
     if ($writeBuffer === 'quit') {
         socket_shutdown($socketClient, 1);
         break;
     }
+
     socket_write($socketClient, $writeBuffer, 1024);
     $readBuffer = socket_read($socketClient, 1024);
 
-    if (!$readBuffer) {
-        socket_close($connection);
+    if (strlen($readBuffer) === 0) {
+        socket_close($socketClient);
         break;
     }
 
