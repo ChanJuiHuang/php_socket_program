@@ -34,6 +34,7 @@ while (true) {
             && !socket_write($connection, $returnData, 1024)
         ) {
             socket_close($connection);
+            echo('socket write error!');
             break;
         }
     }
